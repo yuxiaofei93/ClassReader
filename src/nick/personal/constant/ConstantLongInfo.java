@@ -7,13 +7,18 @@ import java.io.InputStream;
 public class ConstantLongInfo extends ConstantInfo {
     long value;
 
-    public ConstantLongInfo(byte tag) {
+    public ConstantLongInfo(int tag) {
         super(tag);
     }
 
     @Override
     public void readFrom(InputStream is) {
         value = StreamUtil.read8(is);
+    }
+
+    @Override
+    public String toString() {
+        return value + "l";
     }
 
     @Override

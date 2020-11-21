@@ -1,19 +1,21 @@
 package nick.personal;
 
-import nick.personal.constant.ConstantInfo;
-import nick.personal.constant.ConstantInfoFactory;
+import nick.personal.constant.*;
 
 import java.io.InputStream;
 
 public class ClassInfo {
     String magicNumber;
-    short minorVersion;
-    short majorVersion;
-    short constantPoolCount;
+    int minorVersion;
+    int majorVersion;
+    int constantPoolCount;
     ConstantInfo[] constantMap = null;
-    short accessFlags;
-    short thisClassIndex;
-    short parentClassIndex;
+    int accessFlags;
+    int thisClassIndex;
+    int parentClassIndex;
+    int interfaceCnt;
+    int[] interfaceArr;
+    int fieldCnt;
 
     public ClassInfo() {
     }
@@ -26,10 +28,22 @@ public class ClassInfo {
         constantMap = new ConstantInfo[constantPoolCount];
         for (short i = 1; i < constantPoolCount; ++i) {
             constantMap[i] = ConstantInfoFactory.readFrom(is);
+
+            // Long / Double 占两个位置
+            if (constantMap[i] instanceof ConstantDoubleInfo || constantMap[i] instanceof ConstantLongInfo) {
+                ++i;
+                constantMap[i] = constantMap[i - 1];
+            }
         }
         accessFlags = StreamUtil.read2(is);
         thisClassIndex = StreamUtil.read2(is);
         parentClassIndex = StreamUtil.read2(is);
+        interfaceCnt = StreamUtil.read2(is);
+        interfaceArr = new int[interfaceCnt];
+        for (int i = 0; i < interfaceCnt; ++i) {
+            interfaceArr[i] = StreamUtil.read2(is);
+        }
+        fieldCnt = StreamUtil.read2(is);
     }
 
     public void print() {
@@ -38,25 +52,26 @@ public class ClassInfo {
         System.out.println("major_version: " + majorVersion);
         System.out.println("constant pool count: " + constantPoolCount);
         for (int i = 1; i < constantMap.length; ++i) {
-            System.out.println(String.format("#%-2d = %-20s\t\t %-50s\t\t// %s", i, constantMap[i].typeName(), constantMap[i].toString(), constantMap[i].realValue(constantMap)));
+            if (constantMap[i] instanceof ConstantUtf8Info) {
+                printf("#%-2d = %-20s\t\t %-50s\n", i, constantMap[i].typeName(), constantMap[i].toString());
+            } else {
+                System.out.println(String.format("#%-2d = %-20s\t\t %-50s\t\t// %s", i, constantMap[i].typeName(), constantMap[i].toString(), constantMap[i].realValue(constantMap)));
+            }
         }
 
-        System.out.println("access flags: " + parseAccessFlags(accessFlags));
-        System.out.println("class full name: " + constantMap[thisClassIndex].realValue(constantMap));
+        System.out.println("access flags: " + ClassUtil.accessFlagToString(accessFlags));
+        System.out.println("class full name: " + constantMap[thisClassIndex].toString() + ", " + constantMap[thisClassIndex].realValue(constantMap));
         System.out.println("parent class: " + constantMap[parentClassIndex].realValue(constantMap));
+        System.out.println("interface count: " + interfaceCnt);
+        printf("interfaces: \n");
+        for (int i = 0; i < interfaceCnt; ++i) {
+            printf("#%d: %s\n", i, constantMap[interfaceArr[i]].realValue(constantMap));
+        }
+        printf("field count: %d\n", fieldCnt);
     }
 
-    private String parseAccessFlags(short accessFlags) {
-        StringBuilder sb = new StringBuilder();
-        if ((accessFlags & 0x0001) != 0) sb.append("ACC_PUBLIC, ");
-        if ((accessFlags & 0x0010) != 0) sb.append("ACC_FINAL, ");
-        if ((accessFlags & 0x0020) != 0) sb.append("ACC_SUPER, ");
-        if ((accessFlags & 0x0200) != 0) sb.append("ACC_INTERFACE, ");
-        if ((accessFlags & 0x0400) != 0) sb.append("ACC_ABSTRACT, ");
-        if ((accessFlags & 0x1000) != 0) sb.append("ACC_SYNTHETIC, ");
-        if ((accessFlags & 0x2000) != 0) sb.append("ACC_ANNOTATION, ");
-        if ((accessFlags & 0x4000) != 0) sb.append("ACC_ENUM, ");
-        return sb.toString();
+    private void printf(String format, Object... args) {
+        System.out.printf(format, args);
     }
 
 }

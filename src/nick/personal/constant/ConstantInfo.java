@@ -3,9 +3,9 @@ package nick.personal.constant;
 import java.io.InputStream;
 
 public abstract class ConstantInfo {
-    byte tag;
+    int tag;
 
-    public ConstantInfo(byte tag) {
+    public ConstantInfo(int tag) {
         this.tag = tag;
     }
 

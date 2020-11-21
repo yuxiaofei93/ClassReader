@@ -5,9 +5,9 @@ import nick.personal.StreamUtil;
 import java.io.InputStream;
 
 public class ConstantClassInfo extends ConstantInfo {
-    short nameIndex;
+    int nameIndex;
 
-    public ConstantClassInfo(byte tag) {
+    public ConstantClassInfo(int tag) {
         super(tag);
 
     }

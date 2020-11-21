@@ -8,14 +8,14 @@ public class ConstantNameAndTypeInfo extends ConstantInfo {
     /**
      * 指向该字段或方法名称常量项的索引
      */
-    short nameIndex;
+    int nameIndex;
 
     /**
      * 指向该字段或方法描述符常量项的所以
      */
-    short typeIndex;
+    int typeIndex;
 
-    public ConstantNameAndTypeInfo(byte tag) {
+    public ConstantNameAndTypeInfo(int tag) {
         super(tag);
     }
 

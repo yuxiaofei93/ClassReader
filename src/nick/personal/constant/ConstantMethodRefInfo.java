@@ -5,10 +5,10 @@ import nick.personal.StreamUtil;
 import java.io.InputStream;
 
 public class ConstantMethodRefInfo extends ConstantInfo {
-    short typeIndex;
-    short nameIndex;
+    int typeIndex;
+    int nameIndex;
 
-    public ConstantMethodRefInfo(byte tag) {
+    public ConstantMethodRefInfo(int tag) {
         super(tag);
     }
 
@@ -25,7 +25,7 @@ public class ConstantMethodRefInfo extends ConstantInfo {
 
     @Override
     public String typeName() {
-        return "MethodRef";
+        return "Methodref";
     }
 
     @Override

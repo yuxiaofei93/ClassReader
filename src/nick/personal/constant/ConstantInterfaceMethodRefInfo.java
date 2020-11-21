@@ -5,10 +5,10 @@ import nick.personal.StreamUtil;
 import java.io.InputStream;
 
 public class ConstantInterfaceMethodRefInfo extends ConstantInfo {
-    short classInfoIndex;
-    short nameAndTypeIndex;
+    int classInfoIndex;
+    int nameAndTypeIndex;
 
-    public ConstantInterfaceMethodRefInfo(byte tag) {
+    public ConstantInterfaceMethodRefInfo(int tag) {
         super(tag);
     }
 
@@ -19,7 +19,17 @@ public class ConstantInterfaceMethodRefInfo extends ConstantInfo {
     }
 
     @Override
+    public String toString() {
+        return String.format("#%d.#%d", classInfoIndex, nameAndTypeIndex);
+    }
+
+    @Override
+    public String realValue(ConstantInfo[] constantInfoArr) {
+        return String.format("%s.%s", constantInfoArr[classInfoIndex].realValue(constantInfoArr), constantInfoArr[nameAndTypeIndex].realValue(constantInfoArr));
+    }
+
+    @Override
     public String typeName() {
-        return "InterfaceMethodRef";
+        return "InterfaceMethodref";
     }
 }

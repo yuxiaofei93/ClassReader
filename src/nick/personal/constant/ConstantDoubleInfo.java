@@ -7,7 +7,7 @@ import java.io.InputStream;
 public class ConstantDoubleInfo extends ConstantInfo {
     double value = 0;
 
-    public ConstantDoubleInfo(byte tag) {
+    public ConstantDoubleInfo(int tag) {
         super(tag);
     }
 

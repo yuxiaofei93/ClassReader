@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ConstantUtf8Info extends ConstantInfo {
-    short length;
+    int length;
     byte[] bytes;
 
-    public ConstantUtf8Info(byte tag) {
+    public ConstantUtf8Info(int tag) {
         super(tag);
     }
 

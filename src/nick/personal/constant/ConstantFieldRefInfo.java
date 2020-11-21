@@ -5,10 +5,10 @@ import nick.personal.StreamUtil;
 import java.io.InputStream;
 
 public class ConstantFieldRefInfo extends ConstantInfo {
-    short typeIndex;
-    short nameIndex;
+    int typeIndex;
+    int nameIndex;
 
-    public ConstantFieldRefInfo(byte tag) {
+    public ConstantFieldRefInfo(int tag) {
         super(tag);
     }
 
@@ -25,7 +25,7 @@ public class ConstantFieldRefInfo extends ConstantInfo {
 
     @Override
     public String typeName() {
-        return "FieldRef";
+        return "Fieldref";
     }
 
     @Override

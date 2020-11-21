@@ -6,9 +6,7 @@ import java.io.InputStream;
 
 public class ConstantInfoFactory {
     public static ConstantInfo readFrom(InputStream is) {
-        byte tag = StreamUtil.read1(is);
-        short typeIndex;
-        short nameIndex;
+        int tag = StreamUtil.read1(is);
         ConstantInfo info = null;
 
         switch (tag) {

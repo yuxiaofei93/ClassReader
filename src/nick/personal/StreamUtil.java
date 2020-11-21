@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class StreamUtil {
-    public static byte read1(InputStream is) {
-        return (byte) read(is, 1);
+    public static int read1(InputStream is) {
+        return (int)read(is, 1);
     }
 
-    public static short read2(InputStream is) {
-        return (short) read(is, 2);
+    public static int read2(InputStream is) {
+        return  (int)read(is, 2);
     }
 
     public static int read4(InputStream is) {

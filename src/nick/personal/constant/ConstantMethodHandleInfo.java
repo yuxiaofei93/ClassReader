@@ -6,10 +6,10 @@ import java.io.InputStream;
 
 public class ConstantMethodHandleInfo extends ConstantInfo {
 
-    byte referenceKind;
-    short referenceIndex;
+    int referenceKind;
+    int referenceIndex;
 
-    public ConstantMethodHandleInfo(byte tag) {
+    public ConstantMethodHandleInfo(int tag) {
         super(tag);
     }
 
